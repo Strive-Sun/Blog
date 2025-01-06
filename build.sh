@@ -18,17 +18,12 @@ echo "Creating build directory..."
 rm -rf ./build
 mkdir -p ./build
 
-# 复制必要的文件到构建目录
+# 复制必要的文件到构建目录，使用 -L 选项解析符号链接
 echo "Copying files to build directory..."
-cp -r \
-    manage.py \
-    requirements.txt \
-    runtime.txt \
-    blog \
-    blog_project \
-    static \
-    staticfiles \
-    templates \
-    ./build/
+for item in manage.py requirements.txt runtime.txt blog blog_project static staticfiles templates; do
+    if [ -e "$item" ]; then
+        cp -rL "$item" ./build/
+    fi
+done
 
 echo "Build process completed." 
