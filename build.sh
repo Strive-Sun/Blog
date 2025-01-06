@@ -15,11 +15,20 @@ python manage.py collectstatic --noinput
 
 # 创建构建目录
 echo "Creating build directory..."
+rm -rf ./build
 mkdir -p ./build
 
-# 复制所有文件到构建目录
+# 复制必要的文件到构建目录
 echo "Copying files to build directory..."
-cp -r * ./build/ 2>/dev/null || :
-cp -r .* ./build/ 2>/dev/null || :
+cp -r \
+    manage.py \
+    requirements.txt \
+    runtime.txt \
+    blog \
+    blog_project \
+    static \
+    staticfiles \
+    templates \
+    ./build/
 
 echo "Build process completed." 
