@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.utils import timezone
+import markdown
 
 class Category(models.Model):
     name = models.CharField('分类名', max_length=100)
@@ -28,7 +29,8 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField('标题', max_length=200)
-    content = RichTextField('内容')
+    content = models.TextField('内容')
+    use_markdown = models.BooleanField('使用Markdown', default=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     modified_time = models.DateTimeField('修改时间', auto_now=True)
     excerpt = models.CharField('摘要', max_length=200, blank=True)
@@ -48,6 +50,19 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.pk})
+
+    def get_content_html(self):
+        if self.use_markdown:
+            extensions = [
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                'markdown.extensions.toc',
+                'markdown.extensions.tables',
+                'markdown.extensions.fenced_code',
+            ]
+            content_html = markdown.markdown(self.content, extensions=extensions)
+            return content_html
+        return self.content
 
     def increase_views(self):
         self.views += 1
