@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import Post, Category, Tag
 from django.db.models import Q
@@ -14,10 +14,10 @@ class PostDetailView(DetailView):
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
 
-    def get_object(self, queryset=None):
-        post = super().get_object(queryset=queryset)
-        post.increase_views()
-        return post
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        self.object.increase_views()
+        return response
 
 class ArchiveView(ListView):
     model = Post
@@ -73,6 +73,36 @@ class FriendsView(TemplateView):
 
 class AboutView(TemplateView):
     template_name = 'blog/about.html'
+
+class CategoryPostView(ListView):
+    template_name = 'blog/category_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, pk=self.kwargs.get('pk'))
+        return Post.objects.filter(category=category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, pk=self.kwargs.get('pk'))
+        context['category'] = category
+        return context
+
+class TagPostView(ListView):
+    template_name = 'blog/tag_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
+        return Post.objects.filter(tags=tag)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
+        context['tag'] = tag
+        return context
 
 def search(request):
     q = request.GET.get('q')
