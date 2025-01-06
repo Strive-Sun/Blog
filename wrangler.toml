@@ -2,11 +2,8 @@ name = "blog"
 main = "worker.js"
 compatibility_date = "2024-01-07"
 
-[site]
-bucket = "./build"
-
 [build]
-command = "chmod +x build.sh && ./build.sh"
+command = "powershell -ExecutionPolicy Bypass -File build.ps1"
 
 [env.production]
 name = "blog-prod"
