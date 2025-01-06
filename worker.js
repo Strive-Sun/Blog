@@ -15,7 +15,7 @@ async function handleRequest(request) {
     }
 
     // 从构建目录读取文件
-    const response = await fetch(`https://raw.githubusercontent.com/1096235292/blog/main/build${path}`)
+    const response = await fetch(`https://raw.githubusercontent.com/Strive-Sun/Blog/main/build${path}`)
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
