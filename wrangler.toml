@@ -1,0 +1,13 @@
+name = "blog"
+main = "worker.js"
+compatibility_date = "2024-01-07"
+
+[site]
+bucket = "./build"
+
+[build]
+command = "chmod +x build.sh && ./build.sh"
+
+[env.production]
+name = "blog-prod"
+route = "https://aac185ca.lacie.pages.dev/*" 
