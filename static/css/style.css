@@ -32,10 +32,12 @@ body {
 /* 文章卡片样式 */
 .card {
     border: none;
-    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
     border-radius: 0;
-    margin: 0;
-    padding: 1rem;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    transition: all 0.3s ease;
 }
 
 .card:last-child {
@@ -43,7 +45,6 @@ body {
 }
 
 .card:hover {
-    border-color: var(--border-color);
     background-color: #f8f9fa;
 }
 
@@ -64,9 +65,10 @@ body {
 
 /* 文章元信息 */
 .post-meta {
-    color: var(--secondary-color);
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    padding-left: 0;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
 .post-meta span {
@@ -176,9 +178,25 @@ body {
 }
 
 /* 文章emoji图标 */
-.post-emoji {
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
+.post-emoji,
+.article-title .post-emoji,
+.post-title .post-emoji,
+.card .post-emoji {
+    font-size: 2.8rem !important;
+    margin-right: 1rem;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    top: -0.2rem;
+}
+
+.article-title .post-emoji {
+    font-size: 2.8rem !important;
+}
+
+.post-title .post-emoji {
+    font-size: 2.8rem !important;
 }
 
 /* 文章列表样式 */
@@ -247,8 +265,9 @@ body {
 
 /* 文章内容样式 */
 .post-content {
-    margin-top: 2rem;
+    padding-left: 0;
     line-height: 1.8;
+    color: var(--text-color);
 }
 
 .post-content p {
@@ -374,7 +393,7 @@ body {
 
 /* 主内容区域 */
 .main-content {
-    padding: 1rem;
+    padding: 1rem 0 1rem 2rem;
     margin: 0;
 }
 
@@ -589,11 +608,60 @@ body {
     white-space: nowrap;
 }
 
-.post-title {
-    color: var(--text-color);
-    text-decoration: none;
+/* 文章标题和图标容器 */
+.article-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.post-title:hover {
+/* 文章图标 */
+.post-emoji {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px !important;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* 文章标题 */
+.post-title, 
+.card .post-title,
+h1.post-title {
+    font-size: 2rem !important;
+    font-weight: bold;
+    margin: 0 0 1rem 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.post-title a,
+.card .post-title a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
     color: var(--hover-color);
+}
+
+/* 移除旧的样式 */
+.article-title .post-emoji,
+.post-title .post-emoji,
+.card .post-emoji {
+    font-size: 24px !important;
+}
+
+/* 文章摘要样式 */
+.post-excerpt {
+    padding-left: 0;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin: 1rem 0;
+    line-height: 1.6;
 } 
