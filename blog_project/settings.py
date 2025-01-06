@@ -1,16 +1,17 @@
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-your-secret-key-here'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -25,10 +26,12 @@ INSTALLED_APPS = [
     'ckeditor_uploader',  # CKEditor上传功能
     'crispy_forms',  # 表单美化
     'crispy_bootstrap5',
+    'whitenoise.runserver_nostatic',  # 添加whitenoise
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # 添加whitenoise中间件
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -88,9 +91,12 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
