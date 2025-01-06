@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% if form.instance.pk %}编辑文章{% else %}写新文章{% endif %} - 博客系统{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">
+                    {% if form.instance.pk %}编辑文章{% else %}写新文章{% endif %}
+                </h2>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}保存修改{% else %}发布文章{% endif %}
+                        </button>
+                        <a href="{% url 'blog:index' %}" class="btn btn-secondary">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .django-ckeditor-widget {
+        width: 100% !important;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+{{ form.media }}
+{% endblock %} 

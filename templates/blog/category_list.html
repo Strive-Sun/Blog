@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="category-list">
+    <h1 class="page-title">文章分类</h1>
+    
+    <div class="categories">
+        {% for category in categories %}
+        <div class="category-item">
+            <h3 class="category-name">
+                <i class="bi bi-folder"></i>
+                {{ category.name }}
+                <span class="post-count">({{ category.post_count }})</span>
+            </h3>
+            <div class="post-list">
+                {% for post in category.post_set.all %}
+                <div class="post-item">
+                    <span class="post-date">{{ post.created_time|date:"Y-m-d" }}</span>
+                    <a href="{% url 'blog:post_detail' post.pk %}" class="post-title">{{ post.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center text-muted">
+            <p>暂时还没有分类</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

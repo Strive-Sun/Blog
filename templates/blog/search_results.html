@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}搜索结果 - 博客系统{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">搜索结果</h2>
+
+        {% if posts %}
+            {% for post in posts %}
+            <article class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <a href="{% url 'blog:post_detail' post.pk %}" class="text-decoration-none" style="color: var(--text-color);">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+                    {% endif %}
+                    <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:50 }}</p>
+                    <div class="text-muted small mb-2">
+                        <span>作者: {{ post.author.username }}</span>
+                        <span class="mx-2">|</span>
+                        <span>分类: <a href="{% url 'blog:category_posts' post.category.id %}" class="text-decoration-none">{{ post.category.name }}</a></span>
+                        <span class="mx-2">|</span>
+                        <span>发布时间: {{ post.created_time|date:"Y-m-d H:i" }}</span>
+                        <span class="mx-2">|</span>
+                        <span>阅读量: {{ post.views }}</span>
+                    </div>
+                    <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary">阅读更多</a>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                没有找到相关文章。
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                搜索提示
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">搜索技巧</h5>
+                <ul class="list-unstyled">
+                    <li>• 尝试使用不同的关键词</li>
+                    <li>• 确保所有关键词拼写正确</li>
+                    <li>• 尝试使用更一般的关键词</li>
+                    <li>• 减少关键词数量</li>
+                </ul>
+                <a href="{% url 'blog:index' %}" class="btn btn-primary">返回首页</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

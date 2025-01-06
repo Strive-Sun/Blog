@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="friends">
+    <h1 class="page-title">友情链接</h1>
+    
+    <div class="friends-list">
+        {% for friend in friends %}
+        <div class="friend-card">
+            <h3 class="friend-name">
+                <a href="{{ friend.url }}" target="_blank">{{ friend.name }}</a>
+            </h3>
+            <p class="friend-description">{{ friend.description }}</p>
+        </div>
+        {% empty %}
+        <div class="text-center text-muted">
+            <p>暂时还没有友情链接</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="archive">
+    <h1 class="page-title">文章归档</h1>
+    
+    {% for year, year_posts in posts_by_year.items %}
+    <div class="archive-year">
+        <h2>{{ year }}</h2>
+        <ul class="archive-list">
+            {% for post in year_posts %}
+            <li class="archive-item">
+                <span class="archive-date">{{ post.created_time|date:"m-d" }}</span>
+                <a href="{% url 'blog:post_detail' post.pk %}" class="archive-title">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% empty %}
+    <div class="text-center text-muted">
+        <p>暂时还没有文章</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

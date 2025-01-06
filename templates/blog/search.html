@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-results">
+    <h1 class="page-title">搜索结果</h1>
+    
+    {% if query %}
+    <p class="search-info">搜索 "{{ query }}" 的结果：</p>
+    
+    <div class="post-list">
+        {% for post in posts %}
+        <article class="card">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a>
+                </h2>
+                <div class="post-meta">
+                    <span><i class="bi bi-calendar"></i> {{ post.created_time|date:"Y-m-d" }}</span>
+                    <span><i class="bi bi-eye"></i> {{ post.views }} 次阅读</span>
+                </div>
+                {% if post.excerpt %}
+                <p class="card-text">{{ post.excerpt }}</p>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <div class="text-center text-muted">
+            <p>没有找到相关文章</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center text-muted">
+        <p>请输入搜索关键词</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
